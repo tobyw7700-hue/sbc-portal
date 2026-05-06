@@ -3,6 +3,16 @@ A desktop application for St Bernard's College (Essendon) students to view grade
 
 ---
 
+##  Found a Bug? Have a suggestion?
+
+> ### [👉 Click here to report an issue on GitHub](https://github.com/tobyw7700-hue/sbc-portal/issues/new)
+>
+> If something isn't working, a subject name is wrong, or you have an idea for a new feature — open an issue on GitHub. It takes 2 minutes and helps improve the app for everyone at SBC.
+>
+> **You'll need a free GitHub account.** Sign up at [github.com](https://github.com/join) if you don't have one.
+
+---
+
 ## Requirements
 
 - **macOS** (tested on macOS 13+)
@@ -27,9 +37,9 @@ You need **3.9 or higher**. If not installed, download the macOS installer from 
 
 ### Step 2 — Extract the zip
 
-- Find `sbc_portal_v2.zip` in your Downloads folder
+- Find `sbc_portal_v3.zip` in your Downloads folder
 - Double-click it — Mac will extract it automatically
-- Move the `sbc_portal_v2` folder somewhere permanent, e.g. **Documents**
+- Move the `sbc_portal_v3` folder somewhere permanent, e.g. **Documents**
 
 > ⚠️ **Do not run the app from the Downloads folder** — macOS Gatekeeper blocks scripts there. Move it to Documents or your home directory.
 
@@ -37,12 +47,12 @@ You need **3.9 or higher**. If not installed, download the macOS installer from 
 
 ### Step 3 — Open Terminal in the folder
 
-Right-click the `sbc_portal_v2` folder → **New Terminal at Folder**
+Right-click the `sbc_portal_v3` folder → **New Terminal at Folder**
 
 Or manually navigate:
 
 ```bash
-cd ~/Documents/sbc_portal_v2
+cd ~/Documents/sbc_portal_v3
 ```
 
 ---
@@ -125,7 +135,7 @@ python3 main.py
 ### Set up the project in PyCharm
 
 1. Open PyCharm
-2. Click **Open** and select your `sbc_portal_v2` folder
+2. Click **Open** and select your `sbc_portal_v3` folder
 3. PyCharm will detect the project — click **OK** if it asks about a virtual environment
 4. In the bottom-right corner, click the Python version indicator → **Add New Interpreter** → **Add Local Interpreter** → **Virtual Environment**
 5. Set the location to `.venv` inside your project folder and click **OK**
@@ -166,7 +176,7 @@ Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.
 | 📆 **Calendar** | Monthly view of school events, excursions, and due work pulled from mySBC |
 | 📋 **Study Planner** | Fortnight planner with timetable auto-fill, sleep warnings, goal tracking, and auto-generate |
 | 🐾 **My Pet** | Gamification system — earn crates from grades, open lootboxes, level up your pet, unlock achievements |
-| ⚙️ **Settings** | Dark/light mode, scroll speed, font size, gamification toggle, clear cache |
+| ⚙️ **Settings** | Dark/light mode, scroll speed, font size, gamification toggle, clear cache, manual data refresh |
 | 👤 **Profile** | Your student profile with academic summary |
 | 🍽 **Canteen** | Info and link to online ordering |
 | 👥 **Groups** | Your mySBC groups |
@@ -191,10 +201,39 @@ Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.
 
 ## Data & Privacy
 
-- Credentials are stored encrypted in `~/.sbc_portal/` (only readable by your user account)
-- Cached academic data is stored locally at `~/.sbc_portal/cache_{username}.json`
-- Crate counts are HMAC-signed to prevent tampering
-- Nothing is sent anywhere except to mySBC itself
+All app data is saved to **`~/.sbc_portal/`** — a hidden folder in your home directory.
+
+On macOS this expands to:
+```
+/Users/YOUR_MAC_USERNAME/.sbc_portal/
+```
+For example, if your Mac login name is `41631`, the exact path is:
+```
+/Users/41631/.sbc_portal/
+```
+
+To open this folder in Finder, run this in Terminal:
+
+```bash
+open ~/.sbc_portal
+```
+
+This opens it directly regardless of hidden file settings. The folder is **invisible by default** in Finder because its name starts with a dot. To browse to it manually, press `Cmd + Shift + .` in any Finder window to toggle hidden files visible first.
+
+| File | Contents |
+|---|---|
+| `sbc_portal.log` | App error and activity log |
+| `settings.json` | Your app preferences |
+| `remembered.json` | Encrypted saved login credentials |
+| `cache_{username}.json` | Cached academic data (grades, subjects, assignments) |
+| `crates_{username}.json` | Crate counts (HMAC-signed, tamper-proof) |
+| `pet_{username}.json` | Your pet's level, XP, inventory, and achievements |
+| `timetable_{username}.html` | Cached timetable HTML |
+| `cids.json` | Discovered class homepage IDs |
+| `groups_{username}.json` | Cached group membership data |
+| `calendar_{username}.json` | Cached calendar events |
+
+Nothing is sent anywhere except directly to mySBC (`mysbc.sbc.vic.edu.au`).
 
 ---
 
@@ -205,16 +244,19 @@ Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.
 | `Operation not permitted` | Move the folder out of Downloads to Documents |
 | `No module named tkinter` | Reinstall Python from python.org (not Homebrew) |
 | Login says wrong password | You may be on school WiFi — the app retries automatically |
-| App stuck on "Loading academic data" | Check `~/.sbc_portal/sbc_portal.log` for errors |
+| App stuck on "Loading academic data" | Check `/Users/YOUR_MAC_USERNAME/.sbc_portal/sbc_portal.log` for errors |
 | Timetable not showing | Navigate to the Timetable page while logged in — it fetches automatically on first open |
 | Crate count resetting | Don't edit `~/.sbc_portal/crates_*.json` manually — it's integrity-checked |
+| Can't find the `.sbc_portal` folder | Run `open ~/.sbc_portal` in Terminal — the folder is hidden by default |
+
+> **Still stuck?** [Open an issue on GitHub](https://github.com/tobyw7700-hue/sbc-portal/issues/new) and describe the problem.
 
 ---
 
 ## Project Structure
 
 ```
-sbc_portal_v2/
+sbc_portal_v3/
 ├── main.py                  ← Entry point
 ├── requirements.txt
 ├── data/
@@ -227,21 +269,21 @@ sbc_portal_v2/
 │   ├── calendar_scraper.py  ← Calendar event fetcher
 │   └── grade_logic.py       ← Formative filtering, Part A/B exclusion, averages
 ├── ui/
-│   ├── app.py               ← Main shell, sidebar, navigation
+│   ├── app.py               ← Main shell, sidebar, navigation, auto-refresh
 │   ├── login_page.py        ← Login form with Remember Me and offline fallback
 │   ├── grades_page.py       ← Grades dashboard
 │   ├── assessments_page.py  ← Assessment detail view
 │   ├── upcoming_page.py     ← Upcoming assignments
-│   ├── classes_page.py      ← Classes overview
+│   ├── classes_page.py      ← Classes & assessments overview
 │   ├── class_home_page.py   ← Individual class homepage
 │   ├── timetable_page.py    ← Timetable grid
 │   ├── calendar_page.py     ← Monthly calendar
 │   ├── planner_page.py      ← Study planner
-│   ├── pet_page.py          ← Pet system (crates, wardrobe, achievements)
+│   ├── pet_page.py          ← Pet system (crates, wardrobe, achievements, claim animations)
 │   ├── pet_canvas.py        ← Vector pet renderer
 │   ├── crate_animation.py   ← Lootbox animation
 │   ├── profile_page.py      ← Student profile
-│   ├── settings_page.py     ← App settings
+│   ├── settings_page.py     ← App settings and manual refresh
 │   ├── canteen_page.py      ← Canteen info
 │   ├── groups_page.py       ← My Groups
 │   ├── student_services_page.py ← Student Services
@@ -256,6 +298,7 @@ sbc_portal_v2/
 ## First Run Notes
 
 - The app fetches **2024, 2025, and 2026** grade data on first login — this takes about 10–20 seconds
+- Data refreshes automatically **every 10 minutes** while the app is open — or manually via Settings → Refresh Now
 - Your timetable is cached after the first visit to the Timetable page
 - Class homepage CIDs are auto-discovered in the background on first launch
 - All data is cached locally so subsequent launches are much faster
