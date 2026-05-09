@@ -196,6 +196,8 @@ Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.
 | UG | Below 40% |
 
 > Formative tasks and Part A/B sub-components are automatically excluded from averages.
+>
+> Overall average is calculated as the sum of every individual task grade across all subjects divided by the total number of tasks — not an average of subject averages. This is more accurate and reflects your true performance.
 
 ---
 
