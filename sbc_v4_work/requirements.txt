@@ -1,0 +1,6 @@
+# SBC Portal requirements - compatible with Python 3.9+
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+lxml>=4.9.0
+Pillow>=9.0.0
+urllib3>=1.26.0
