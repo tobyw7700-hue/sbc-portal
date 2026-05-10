@@ -13,154 +13,77 @@ A desktop application for St Bernard's College (Essendon) students to view grade
 
 ---
 
+## Step 1 — Install PyCharm (Recommended IDE)
+
+[PyCharm Community Edition](https://www.jetbrains.com/pycharm/download/) is free and makes running the app much easier than Terminal.
+
+1. Go to [jetbrains.com/pycharm/download](https://www.jetbrains.com/pycharm/download/)
+2. Scroll to **PyCharm Community Edition** — click **Download** for macOS
+3. Open the `.dmg` and drag **PyCharm CE** to Applications
+4. Open PyCharm → **Open** → select the `sbc_v4_work` folder
+5. Bottom-right corner → click the Python version → **Add Interpreter** → **Add Local Interpreter** → **Virtual Environment** → set location to `.venv` inside the project → **OK**
+6. Open the **Terminal** tab at the bottom → run `pip install -r requirements.txt`
+7. Open `main.py` → click the green **▶ Run** button
+
+> If you prefer Terminal, skip to Installation below.
+
+---
+
 ## Requirements
 
-- **macOS** (tested on macOS 13+)
-- **Python 3.9 or higher** — download from [python.org](https://www.python.org/downloads/) if not installed
+- **macOS** (tested on macOS Tahoe 26.x)
+- **Python 3.13** at `/usr/local/bin/python3.13` — already installed on school Macs
 - An active mySBC account (your school login)
 
 ---
 
 ## Installation
 
-### Step 1 — Check Python
+### Step 1 — Download
 
-Open **Terminal** (press `Cmd + Space`, type `Terminal`, hit Enter) and run:
-
-```bash
-python3 --version
-```
-
-You need **3.9 or higher**. If not installed, download the macOS installer from [python.org](https://www.python.org/downloads/) and run it.
+Download `sbc_portal_v4_release.zip` from the [latest release](https://github.com/tobyw7700-hue/sbc-portal/releases/latest).
 
 ---
 
-### Step 2 — Extract the zip
+### Step 2 — Extract
 
-- Find `sbc_portal_v3.zip` in your Downloads folder
-- Double-click it — Mac will extract it automatically
-- Move the `sbc_portal_v3` folder somewhere permanent, e.g. **Documents**
+Double-click the zip — Mac extracts it automatically. Move the `sbc_v4_work` folder to **Documents** (not Downloads).
 
-> ⚠️ **Do not run the app from the Downloads folder** — macOS Gatekeeper blocks scripts there. Move it to Documents or your home directory.
+> ⚠️ **Do not run from the Downloads folder** — macOS blocks scripts there.
 
 ---
 
-### Step 3 — Open Terminal in the folder
+### Step 3 — Run
 
-Right-click the `sbc_portal_v3` folder → **New Terminal at Folder**
+Double-click **`run.command`** inside the folder.
 
-Or manually navigate:
+> If macOS says it can't be opened: right-click → **Open** → **Open**.
 
+`run.command` automatically finds the correct Python, patches the bundled environment, and launches the app. No Terminal needed.
+
+**Or run from Terminal:**
 ```bash
-cd ~/Documents/sbc_portal_v3
+cd ~/Documents/sbc_v4_work
+python3.13 main.py
 ```
 
----
-
-### Step 4 — Create a virtual environment
-
-```bash
-python3 -m venv .venv
-```
-
----
-
-### Step 5 — Install dependencies
-
-```bash
-.venv/bin/pip install -r requirements.txt
-```
-
-If you get a permissions error, try:
-
-```bash
-.venv/bin/pip install --user -r requirements.txt
-```
-
-> **Do not use** `pip3 install -r requirements.txt --break-system-packages` — this can interfere with your system Python. Always use the virtual environment above.
-
-#### Manual install (if requirements.txt doesn't work)
-
-If `requirements.txt` causes issues, you can install each library individually:
-
-```bash
-.venv/bin/pip install requests
-.venv/bin/pip install beautifulsoup4
-.venv/bin/pip install lxml
-.venv/bin/pip install Pillow
-.venv/bin/pip install cryptography
-.venv/bin/pip install urllib3
-```
-
-What each library is for:
-
-| Library | Purpose |
-|---|---|
-| `requests` | Making HTTP requests to mySBC (login, fetching pages) |
-| `beautifulsoup4` | Parsing HTML from mySBC pages to extract data |
-| `lxml` | Fast HTML/XML parser used by BeautifulSoup |
-| `Pillow` | Loading and displaying the SBC crest image (`sbc_crest.png`) |
-| `cryptography` | Encrypting saved credentials (Remember Me feature) |
-| `urllib3` | Low-level HTTP handling used by requests (usually installed automatically) |
-
-`tkinter` is **not** installed via pip — it comes bundled with Python from [python.org](https://www.python.org/downloads/). If you get `No module named tkinter`, reinstall Python from python.org (not Homebrew).
-
----
-
-### Step 6 — Run the app
-
-```bash
-.venv/bin/python3 main.py
-```
-
-Or if you used the system Python setup:
-
-```bash
-python3 main.py
-```
-
----
-
-## Optional — PyCharm IDE
-
-[PyCharm](https://www.jetbrains.com/pycharm/) is a free Python IDE that makes running and editing the app much easier than using Terminal manually. The **Community Edition** is completely free.
-
-### Download PyCharm
-
-1. Go to [jetbrains.com/pycharm/download](https://www.jetbrains.com/pycharm/download/)
-2. Scroll down to **PyCharm Community Edition** (the free one — not Professional)
-3. Click **Download** for macOS
-4. Open the `.dmg` file and drag **PyCharm CE** into your Applications folder
-
-### Set up the project in PyCharm
-
-1. Open PyCharm
-2. Click **Open** and select your `sbc_portal_v3` folder
-3. PyCharm will detect the project — click **OK** if it asks about a virtual environment
-4. In the bottom-right corner, click the Python version indicator → **Add New Interpreter** → **Add Local Interpreter** → **Virtual Environment**
-5. Set the location to `.venv` inside your project folder and click **OK**
-6. Open the **Terminal** tab at the bottom of PyCharm and run:
-   ```bash
-   pip install -r requirements.txt
-   ```
-7. Open `main.py` and click the green **▶ Run** button in the top-right — the app will launch
-
-### Why use PyCharm?
-
-- See errors highlighted in red as you type
-- Click any error in the console to jump straight to that line
-- The built-in terminal always opens in the right folder automatically
-- Easy to re-run the app with one click instead of typing commands each time
+> On school Macs always use `python3.13` — the default `python3` is an older broken version.
 
 ---
 
 ## Logging In
 
-Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.vic.edu.au](https://mysbc.sbc.vic.edu.au)).
+Use your mySBC username and password (same as [mysbc.sbc.vic.edu.au](https://mysbc.sbc.vic.edu.au)).
 
-- Tick **Remember Me** to save your credentials securely for next time
-- If login fails due to school WiFi (ZScaler SSL interception), the app will automatically retry
-- If mySBC is unreachable, the app will offer to load **cached data** from your last successful login
+- **Remember Me** saves credentials securely for next time
+- On school WiFi the app retries automatically if SSL is intercepted
+- If mySBC is unreachable the app loads cached data from your last login
+
+---
+
+## Updates
+
+The app checks for updates automatically on launch. If a new version is available a green banner appears at the top — click it to download.
 
 ---
 
@@ -168,19 +91,73 @@ Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.
 
 | Page | Description |
 |---|---|
-| 📊 **Grades** | All subjects with grades, class averages, SBC letter grades (A+/A/B/C/D/UG), per-assignment breakdowns |
-| 📝 **Assessments** | Every graded task with teacher feedback, submission status, and formative task filtering |
-| 📅 **Upcoming** | Pending assignments sorted by urgency (Overdue / This Week / Later), grouped by year |
-| 🏫 **My Classes** | Class homepages with live lesson feed from each subject |
-| 🗓 **Timetable** | Your 10-day cycle timetable, colour-coded by subject |
-| 📆 **Calendar** | Monthly view of school events, excursions, and due work pulled from mySBC |
-| 📋 **Study Planner** | Fortnight planner with timetable auto-fill, sleep warnings, goal tracking, and auto-generate |
-| 🐾 **My Pet** | Gamification system — earn crates from grades, open lootboxes, level up your pet, unlock achievements |
-| ⚙️ **Settings** | Dark/light mode, scroll speed, font size, gamification toggle, clear cache, manual data refresh |
-| 👤 **Profile** | Your student profile with academic summary |
-| 🍽 **Canteen** | Info and link to online ordering |
+| 📊 **Grades** | All subjects with grades, SBC letter grades (A+/A/B/C/D/UG), per-assignment breakdown |
+| 📝 **Assessments** | Every graded task with teacher feedback and submission status |
+| 📅 **Upcoming** | Pending assignments sorted by urgency |
+| 🏫 **My Classes** | Class homepages with live lesson feed |
+| 🗓 **Timetable** | 10-day cycle timetable, colour-coded by subject |
+| 📆 **Calendar** | Monthly school events and due dates |
+| 📋 **Study Planner** | Fortnight planner — auto-generate, subject selection, PNG export |
+| 🐾 **My Pet** | Crates, wardrobe, market, collection index, achievements |
+| ⚙️ **Settings** | Themes, gamification, refresh, data management |
+| 👤 **Profile** | Student profile with academic summary |
+| 🍽 **Canteen** | Info and online ordering link |
 | 👥 **Groups** | Your mySBC groups |
 | 🏫 **Student Services** | Quick links to all school services |
+
+---
+
+## My Pet — Gamification
+
+### Coins
+Earn coins from grades and crate openings:
+
+| Grade | Coins | Other |
+|---|---|---|
+| A+ | 20 | +3 per crate opened |
+| A | 14 | |
+| B | 9 | |
+| C | 5 | |
+| D | 2 | |
+
+### Rarities (7 tiers)
+
+| Rarity | Colour | Notes |
+|---|---|---|
+| Divine | ⚪ White | Extremely rare |
+| Mythic | 🟠 Orange | Very rare |
+| Legendary | 🟡 Gold | Rare |
+| Epic | 🟣 Purple | Uncommon |
+| Rare | 🔵 Blue | Somewhat common |
+| Uncommon | 🟢 Green | Common |
+| Common | 🩶 Grey | Very common |
+
+### Crate chances
+
+| Rarity | A+ (Golden) | A (Silver) | B (Bronze) | C (Common) | D (Worn) |
+|---|---|---|---|---|---|
+| Divine | 2% | 0% | 0% | 0% | 0% |
+| Mythic | 5% | 1% | 0% | 0% | 0% |
+| Legendary | 12% | 6% | 2% | 0% | 0% |
+| Epic | 20% | 16% | 8% | 3% | 0% |
+| Rare | 28% | 28% | 22% | 12% | 5% |
+| Uncommon | 20% | 30% | 35% | 35% | 20% |
+| Common | 13% | 19% | 33% | 50% | 75% |
+
+### Market prices
+
+| Rarity | Cost |
+|---|---|
+| Common | 8 coins |
+| Uncommon | 20 coins |
+| Rare | 55 coins |
+| Epic | 130 coins |
+| Legendary | 300 coins |
+| Mythic | 700 coins |
+| Divine | 1500 coins |
+
+### Pet evolution
+Pets visually evolve every 10 levels. At level 30 an aura appears, level 60 eyes glow, level 80 divine sparkles orbit the pet, level 90+ full white glow.
 
 ---
 
@@ -196,46 +173,31 @@ Enter your **mySBC username and password** (the same ones you use at [mysbc.sbc.
 | UG | Below 40% |
 
 > Formative tasks and Part A/B sub-components are automatically excluded from averages.
->
-> Overall average is calculated as the sum of every individual task grade across all subjects divided by the total number of tasks — not an average of subject averages. This is more accurate and reflects your true performance.
+> Overall average = sum of all individual task grades ÷ total tasks.
 
 ---
 
 ## Data & Privacy
 
-All app data is saved to **`~/.sbc_portal/`** — a hidden folder in your home directory.
+All data is saved to **`~/.sbc_portal/`** — a hidden folder in your home directory.
 
-On macOS this expands to:
-```
-/Users/YOUR_MAC_USERNAME/.sbc_portal/
-```
-For example, if your Mac login name is `41631`, the exact path is:
-```
-/Users/41631/.sbc_portal/
-```
-
-To open this folder in Finder, run this in Terminal:
-
+To open it in Finder:
 ```bash
 open ~/.sbc_portal
 ```
 
-This opens it directly regardless of hidden file settings. The folder is **invisible by default** in Finder because its name starts with a dot. To browse to it manually, press `Cmd + Shift + .` in any Finder window to toggle hidden files visible first.
-
 | File | Contents |
 |---|---|
-| `sbc_portal.log` | App error and activity log |
-| `settings.json` | Your app preferences |
-| `remembered.json` | Encrypted saved login credentials |
-| `cache_{username}.json` | Cached academic data (grades, subjects, assignments) |
-| `crates_{username}.json` | Crate counts (HMAC-signed, tamper-proof) |
-| `pet_{username}.json` | Your pet's level, XP, inventory, and achievements |
-| `timetable_{username}.html` | Cached timetable HTML |
-| `cids.json` | Discovered class homepage IDs |
-| `groups_{username}.json` | Cached group membership data |
-| `calendar_{username}.json` | Cached calendar events |
+| `sbc_portal.log` | App error log |
+| `settings.json` | App preferences |
+| `remembered.json` | Encrypted saved credentials |
+| `cache_{username}.json` | Cached academic data |
+| `crates_{username}.json` | Crate counts (HMAC-signed) |
+| `pet_{username}.json` | Pet data (HMAC-signed) |
+| `timetable_{username}.html` | Cached timetable |
+| `planner.json` | Study planner data |
 
-Nothing is sent anywhere except directly to mySBC (`mysbc.sbc.vic.edu.au`).
+Nothing is sent anywhere except directly to mySBC.
 
 ---
 
@@ -243,68 +205,36 @@ Nothing is sent anywhere except directly to mySBC (`mysbc.sbc.vic.edu.au`).
 
 | Problem | Fix |
 |---|---|
-| `Operation not permitted` | Move the folder out of Downloads to Documents |
-| `No module named tkinter` | Reinstall Python from python.org (not Homebrew) |
-| Login says wrong password | You may be on school WiFi — the app retries automatically |
-| App stuck on "Loading academic data" | Check `/Users/YOUR_MAC_USERNAME/.sbc_portal/sbc_portal.log` for errors |
-| Timetable not showing | Navigate to the Timetable page while logged in — it fetches automatically on first open |
-| Crate count resetting | Don't edit `~/.sbc_portal/crates_*.json` manually — it's integrity-checked |
-| Can't find the `.sbc_portal` folder | Run `open ~/.sbc_portal` in Terminal — the folder is hidden by default |
+| `macOS 26 or later required` | Use `python3.13 main.py` or double-click `run.command` |
+| `Operation not permitted` | Move folder out of Downloads to Documents |
+| `No module named tkinter` | Reinstall Python from python.org |
+| Login says wrong password | School WiFi may be intercepting — app retries automatically |
+| Timetable not loading in planner | Visit the Timetable page first while logged in |
+| Crate count resetting | Don't edit `crates_*.json` manually — it's integrity-checked |
+| Can't find `.sbc_portal` folder | Run `open ~/.sbc_portal` in Terminal |
 
-> **Still stuck?** [Open an issue on GitHub](https://github.com/tobyw7700-hue/sbc-portal/issues/new) and describe the problem.
+> **Still stuck?** [Open an issue on GitHub](https://github.com/tobyw7700-hue/sbc-portal/issues/new)
 
 ---
 
-## Project Structure
+## Optional — PyCharm IDE
 
-```
-sbc_portal_v3/
-├── main.py                  ← Entry point
-├── requirements.txt
-├── data/
-│   └── models.py            ← Data models (UserProfile, Subject, Assignment, etc.)
-├── scraper/
-│   ├── auth.py              ← Login, SAML, session management, SSL handling
-│   ├── parser.py            ← Grade scraping (POST-based, Schoolbox-specific)
-│   ├── timetable.py         ← Timetable parser
-│   ├── class_scraper.py     ← Class homepage news feed fetcher
-│   ├── calendar_scraper.py  ← Calendar event fetcher
-│   └── grade_logic.py       ← Formative filtering, Part A/B exclusion, averages
-├── ui/
-│   ├── app.py               ← Main shell, sidebar, navigation, auto-refresh
-│   ├── login_page.py        ← Login form with Remember Me and offline fallback
-│   ├── grades_page.py       ← Grades dashboard
-│   ├── assessments_page.py  ← Assessment detail view
-│   ├── upcoming_page.py     ← Upcoming assignments
-│   ├── classes_page.py      ← Classes & assessments overview
-│   ├── class_home_page.py   ← Individual class homepage
-│   ├── timetable_page.py    ← Timetable grid
-│   ├── calendar_page.py     ← Monthly calendar
-│   ├── planner_page.py      ← Study planner
-│   ├── pet_page.py          ← Pet system (crates, wardrobe, achievements, claim animations)
-│   ├── pet_canvas.py        ← Vector pet renderer
-│   ├── crate_animation.py   ← Lootbox animation
-│   ├── profile_page.py      ← Student profile
-│   ├── settings_page.py     ← App settings and manual refresh
-│   ├── canteen_page.py      ← Canteen info
-│   ├── groups_page.py       ← My Groups
-│   ├── student_services_page.py ← Student Services
-│   ├── crest.py             ← SBC crest image loader
-│   └── widgets.py           ← Shared widgets (ScrollableFrame, etc.)
-└── assets/
-    └── sbc_crest.png        ← School crest (required)
-```
+[Download PyCharm Community Edition](https://www.jetbrains.com/pycharm/download/) (free).
+
+1. Open PyCharm → **Open** → select the `sbc_v4_work` folder
+2. Bottom-right → Python version → **Add Interpreter** → **Virtual Environment** → set to `.venv`
+3. Open Terminal tab → `pip install -r requirements.txt`
+4. Open `main.py` → click ▶ **Run**
 
 ---
 
 ## First Run Notes
 
-- The app fetches **2024, 2025, and 2026** grade data on first login — this takes about 10–20 seconds
-- Data refreshes automatically **every 10 minutes** while the app is open — or manually via Settings → Refresh Now
-- Your timetable is cached after the first visit to the Timetable page
-- Class homepage CIDs are auto-discovered in the background on first launch
-- All data is cached locally so subsequent launches are much faster
+- First login fetches 2024–2026 grade data — takes 10–20 seconds
+- Data auto-refreshes every 10 minutes while the app is open
+- Timetable is cached after first visit to the Timetable page
+- App checks for updates 2 seconds after launch
 
 ---
 
-*Built for St Bernard's College, Essendon. Not affiliated with or endorsed by the school.*
+*Built for St Bernard's College, Essendon — v4.2. Not affiliated with or endorsed by the school.*
